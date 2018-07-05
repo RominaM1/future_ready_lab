@@ -1,5 +1,5 @@
 //define a circle object
-var circle = {
+/*var circle = {
     diameter:80, 
     xCoor: 0, 
     yCoor: 0,
@@ -7,43 +7,68 @@ var circle = {
     xSpeed: 20,
     ySpeed: 20
 }
+*/
 
-function randomColor(){
-    return[random (256), random (256), random (256)];
+function Circle(xCoor, yCoor, size, color, xSpeed, ySpeed){
+    this.xCoor = xCoor;
+    this.yCoor = yCoor;
+    this.diameter = size;
+    this.color = color || [0,0,0]; //makes the default color black
+    this.xSpeed = xSpeed || 5;
+    this.ySpeed = ySpeed || 7;
 }
 
+var circle = new Circle(0, 0, 80, [255,0,0], 2, 10)
+var circle2 = new Circle(0,30,50);
+var circleList = [circle, circle2, new Circle(0,0,10)];
+var circleList = [];
+
 function setup() {
-  createCanvas(1000, 680);
-    background(255,204, 0);
-    frameRate(15);
+    createCanvas (parseInt(prompt("Insert a value for the width")),parseInt(prompt("Insert a value for the height")));//tells the user to enter the size of the canvas
+    makeCircles();
+}
+
+function makeCircles(){
+    var balls = random([2,5,9,16]);
+    for (b=0; b<balls; b++){
+        circleList.push(new Circle(random(width), random(height),10, [0,0,0], 5,5))
+    }
+}
+
+function randomColor(){
+    return [random (0,256), random(0,256), random(0,256)]
 }
 
 function draw() {
-    fill(circle.color);
-    ellipse(circle.xCoor, circle.yCoor, circle.diameter);
+    background(0);
+    for(var i = 0; i < circleList.length; i++){
+        fill(circleList[i].color);
+    ellipse(circleList[i].xCoor, circleList[i].yCoor, circleList[i].diameter);
    
-    console.log("The x coordinate is" + circle.xCoor);
     
-    if(circle.xCoor >= 1000){
-        circle.color = randomColor();
-        circle.color = [0,0,0] //makes circle black
-        circle.xSpeed = -circle.xSpeed; //reverse direction     
-    }else if(circle.xCoor < 0){
-        circle.color = randomColor();
-        circle.color = [0,0,255]; //make the circle blue
-        circle.xSpeed = -circle.xSpeed;
+    if(circleList[i].xCoor >= width){
+        circleList[i].color = randomColor();
+        circleList[i].diameter = random(20,60);
+        circleList[i].xSpeed = -circleList[i].xSpeed; //reverse direction     
+    }else if(circleList[i].xCoor < 0){
+        circleList[i].color = randomColor();
+        circleList[i].diameter = random(25,60) 
+        circleList[i].xSpeed = -circleList[i].xSpeed;
     }
-    
-    if(circle.yCoor < 0){
-        circle.color = randomColor(); //make the circle change color whenever it hits the wall
-        circle.ySpeed = -circle.ySpeed; 
-        circle.diameter= random(20,60);//changes the size of the circle
+        if(circleList[i].yCoor < 0){
+        circleList[i].color = randomColor(); //make the circle change color whenever it hits the wall
+        circleList[i].ySpeed = -circleList[i].ySpeed; 
+        circleList[i].diameter= random(20,60);//changes the size of the circle
         
-    }else if(circle.yCoor > 680){
-        circle.color = randomColor();
-        circle.ySpeed = -circle.ySpeed;
-        circle.diameter= random(25,60);//changes the size of the circle
+    }else if(circleList[i].yCoor >= height){
+        circleList[i].color = randomColor();
+        circleList[i].ySpeed = -circleList[i].ySpeed;
+        circleList[i].diameter= random(25,60);//changes the size of the circle
     }
-    circle.xCoor += circle.xSpeed;
-    circle.yCoor += circle.ySpeed;
+    circleList[i].xCoor += circleList[i].xSpeed;
+    circleList[i].yCoor += circleList[i].ySpeed;
+        
+    }
+    
+    
 }
