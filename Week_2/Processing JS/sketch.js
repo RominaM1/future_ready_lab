@@ -13,9 +13,9 @@ function Circle(xCoor, yCoor, size, color, xSpeed, ySpeed){
     this.xCoor = xCoor;
     this.yCoor = yCoor;
     this.diameter = size;
-    this.color = color || [0,0,0]; //makes the default color black
-    this.xSpeed = xSpeed || 5;
-    this.ySpeed = ySpeed || 7;
+    this.color = color; //makes the default color black
+    this.xSpeed = xSpeed;
+    this.ySpeed = ySpeed;
 }
 
 var circle = new Circle(0, 0, 80, [255,0,0], 2, 10)
@@ -29,9 +29,9 @@ function setup() {
 }
 
 function makeCircles(){
-    var balls = random([2,5,9,16]);
+    var balls = random([2,5,9,16]);//inserts balls numbers between 2, 5, 9, 16
     for (b=0; b<balls; b++){
-        circleList.push(new Circle(random(width), random(height),10, [0,0,0], 5,5))
+        circleList.push(new Circle(random(width), random(height),10, [0,0,0], random(2,10),random(2, 10)))//inserts balls between these sizes, colors, and speed
     }
 }
 
@@ -40,13 +40,13 @@ function randomColor(){
 }
 
 function draw() {
-    background(0);
+    background(color(0, 0, 255));
     for(var i = 0; i < circleList.length; i++){
         fill(circleList[i].color);
     ellipse(circleList[i].xCoor, circleList[i].yCoor, circleList[i].diameter);
    
     
-    if(circleList[i].xCoor >= width){
+    if(circleList[i].xCoor > width){
         circleList[i].color = randomColor();
         circleList[i].diameter = random(20,60);
         circleList[i].xSpeed = -circleList[i].xSpeed; //reverse direction     
@@ -60,7 +60,7 @@ function draw() {
         circleList[i].ySpeed = -circleList[i].ySpeed; 
         circleList[i].diameter= random(20,60);//changes the size of the circle
         
-    }else if(circleList[i].yCoor >= height){
+    }else if(circleList[i].yCoor > height){
         circleList[i].color = randomColor();
         circleList[i].ySpeed = -circleList[i].ySpeed;
         circleList[i].diameter= random(25,60);//changes the size of the circle
